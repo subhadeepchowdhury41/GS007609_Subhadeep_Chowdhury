@@ -8,6 +8,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/logo.svg";
 
 const AppDrawer = ({ drawerWidth }: { drawerWidth: number }) => {
   return (
@@ -22,7 +23,9 @@ const AppDrawer = ({ drawerWidth }: { drawerWidth: number }) => {
         },
       }}
     >
-      <Box sx={{ height: "60px", borderBottom: "1px solid #E0E0E0" }} />
+      <Box sx={{ height: "60px", borderBottom: "1px solid #E0E0E0" }}>
+        <img style={{ width: "100%", height: "100%" }} src={Logo} alt="Logo" />
+      </Box>
       <List>
         <ListItemButton
           to="/store"

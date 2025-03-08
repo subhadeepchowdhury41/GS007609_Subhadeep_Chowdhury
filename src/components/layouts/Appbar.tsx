@@ -5,11 +5,17 @@ const AppHeader = () => {
     <AppBar
       elevation={0}
       position="fixed"
-      sx={{ display: "flex", justifyContent: "center", height: 60 }}
+      variant="outlined"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        height: 60,
+        backgroundColor: "white",
+      }}
     >
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography variant="h6" fontWeight={600}>
-          Data Viewer
+        <Typography variant="h6" fontWeight={600} color="black">
+          Data Viewer App
         </Typography>
       </Box>
     </AppBar>
