@@ -3,6 +3,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import storeReducer from "./slices/storeSlice";
 import skuReducer from "./slices/skuSlice";
+import planningReducer from "./slices/planningSlice";
+import chartReducer from "./slices/chartSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const persistConfig = {
@@ -13,6 +15,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   stores: storeReducer,
   skus: skuReducer,
+  planning: planningReducer,
+  chart: chartReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

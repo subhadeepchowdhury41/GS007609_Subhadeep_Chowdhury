@@ -4,7 +4,7 @@ import { Box, TextField, TextFieldProps } from "@mui/material";
 const AppTextField = ({ label, ...props }: TextFieldProps) => {
   const [field, meta] = useField(props.name || "");
   return (
-    <Box marginBottom={2}>
+    <Box>
       <TextField
         {...field}
         {...props}

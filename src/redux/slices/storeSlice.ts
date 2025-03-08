@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface Store {
   ID: string;
   Label: string;
-  CITY: string;
-  STATE: string;
+  City: string;
+  State: string;
 }
 
 const initialState: Store[] = [];

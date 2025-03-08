@@ -9,6 +9,9 @@ import "./App.css";
 import Dashboard from "./components/layouts/Dashboard";
 import Charts from "./pages/Charts";
 import Planning from "./pages/Plannning";
+import { ClientSideRowModelModule, ModuleRegistry } from "ag-grid-community";
+
+ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
 function App() {
   return (
@@ -17,8 +20,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Dashboard />}>
-              <Route path="/stores" element={<Stores />} />
-              <Route path="/skus" element={<SKUs />} />
+              <Route path="/store" element={<Stores />} />
+              <Route path="/sku" element={<SKUs />} />
               <Route path="/planning" element={<Planning />} />
               <Route path="/charts" element={<Charts />} />
             </Route>

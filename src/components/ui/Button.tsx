@@ -1,13 +1,15 @@
 import React from "react";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, ButtonProps } from "@mui/material";
 import { useFormikContext } from "formik";
 
 interface FormikSubmitButtonProps {
   label: string;
+  props?: ButtonProps;
 }
 
 export const FormikSubmitButton: React.FC<FormikSubmitButtonProps> = ({
   label,
+  props
 }) => {
   const { isSubmitting, isValid } = useFormikContext();
 
@@ -18,29 +20,7 @@ export const FormikSubmitButton: React.FC<FormikSubmitButtonProps> = ({
       color="primary"
       disabled={isSubmitting || !isValid}
       startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
-    >
-      {label}
-    </Button>
-  );
-};
-
-interface NormalButtonProps {
-  label: string;
-  onClick: () => void;
-  disabled?: boolean;
-}
-
-export const AppButton: React.FC<NormalButtonProps> = ({
-  label,
-  onClick,
-  disabled = false,
-}) => {
-  return (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={onClick}
-      disabled={disabled}
+      {...props}
     >
       {label}
     </Button>

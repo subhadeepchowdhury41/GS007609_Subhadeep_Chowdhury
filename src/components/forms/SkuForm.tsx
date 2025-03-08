@@ -4,23 +4,28 @@ import { Formik, Form } from "formik";
 import AppTextField from "../ui/TextField";
 import * as Yup from "yup";
 import { FormikSubmitButton } from "../ui/Button";
+import { Box } from "@mui/material";
 
 const SkuForm = ({
   skuId,
   isEdit = false,
+  onClose,
 }: {
   skuId?: string;
   isEdit: boolean;
+  onClose: () => void;
 }) => {
+  const isReadOnly = !isEdit && !!skuId;
   const dispatch = useAppDispatch();
   const skus = useAppSelector((state) => state.skus);
   const sku = skuId ? skus.find((sku) => sku.ID === skuId) : undefined;
-
   const handleSubmit = (values: SKU) => {
     if (skuId) {
       dispatch(updateSKU({ ...sku, ...values }));
+      onClose();
     } else {
       dispatch(addSKU(values));
+      onClose();
     }
   };
 
@@ -34,14 +39,14 @@ const SkuForm = ({
         Price: sku?.Price || 0,
         Cost: sku?.Cost || 0,
       }}
-      validationSchema={{
+      validationSchema={Yup.object({
         ID: Yup.string().required("ID is required"),
         Label: Yup.string().required("Label is required"),
         Department: Yup.string().required("Department is required"),
         Class: Yup.string().required("Class is required"),
         Price: Yup.number().required("Price is required"),
         Cost: Yup.number().required("Cost is required"),
-      }}
+      })}
       onSubmit={handleSubmit}
     >
       <Form>
@@ -50,28 +55,28 @@ const SkuForm = ({
           name="ID"
           fullWidth
           margin="normal"
-          disabled={!isEdit}
+          disabled={isReadOnly}
         />
         <AppTextField
           label="Label"
           name="Label"
           fullWidth
           margin="normal"
-          disabled={!isEdit}
+          disabled={isReadOnly}
         />
         <AppTextField
           label="Department"
           name="Department"
           fullWidth
           margin="normal"
-          disabled={!isEdit}
+          disabled={isReadOnly}
         />
         <AppTextField
           label="Class"
           name="Class"
           fullWidth
           margin="normal"
-          disabled={!isEdit}
+          disabled={isReadOnly}
         />
         <AppTextField
           label="Price"
@@ -79,7 +84,7 @@ const SkuForm = ({
           fullWidth
           margin="normal"
           type="number"
-          disabled={!isEdit}
+          disabled={isReadOnly}
         />
         <AppTextField
           label="Cost"
@@ -87,9 +92,11 @@ const SkuForm = ({
           fullWidth
           margin="normal"
           type="number"
-          disabled={!isEdit}
+          disabled={isReadOnly}
         />
-        <FormikSubmitButton label="Submit" />
+        <Box sx={{ display: "flex", justifyContent: "end", mt: 2 }}>
+          <FormikSubmitButton label="Submit" />
+        </Box>
       </Form>
     </Formik>
   );

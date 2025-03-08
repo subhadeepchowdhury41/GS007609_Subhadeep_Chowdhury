@@ -1,14 +1,23 @@
 import { Box } from "@mui/material";
 import AppDrawer from "./Drawer";
 import { Outlet } from "react-router-dom";
+import AppHeader from "./Appbar";
+
+const drawerWidth = 250;
 
 const Dashboard = () => {
   return (
     <Box sx={{ display: "flex", width: "100%" }}>
-      <Box sx={{ width: 250 }}>
-        <AppDrawer />
-      </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
+      <AppDrawer drawerWidth={drawerWidth} />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: `calc(100% - ${drawerWidth}px)`,
+          height: "100vh",
+        }}
+      >
+        <AppHeader />
         <Outlet />
       </Box>
     </Box>
