@@ -38,6 +38,7 @@ const Planning = () => {
     dispatch(setCalculations([]));
     dispatch(setColumnDefs([]));
     dispatch(setSelectedRow(null));
+    dispatch(setChartData([]));
     dispatch(closeSelectedRow());
     dispatch(importStores([]));
     dispatch(importSKUs([]));

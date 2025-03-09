@@ -28,7 +28,7 @@ const AppDrawer = ({ drawerWidth }: { drawerWidth: number }) => {
       </Box>
       <List>
         <ListItemButton
-          to="/store"
+          to="/dashboard/store"
           component={Link}
           sx={{
             "&.Mui-selected": {
@@ -41,19 +41,19 @@ const AppDrawer = ({ drawerWidth }: { drawerWidth: number }) => {
           </ListItemIcon>
           <ListItemText primary="Stores" />
         </ListItemButton>
-        <ListItemButton to="/sku" component={Link}>
+        <ListItemButton to="/dashboard/sku" component={Link}>
           <ListItemIcon>
             <Category />
           </ListItemIcon>
           <ListItemText primary="SKUs" />
         </ListItemButton>
-        <ListItemButton to="/planning" component={Link}>
+        <ListItemButton to="/dashboard/planning" component={Link}>
           <ListItemIcon>
             <TableChart />
           </ListItemIcon>
           <ListItemText primary="Planning" />
         </ListItemButton>
-        <ListItemButton to="/charts" component={Link}>
+        <ListItemButton to="/dashboard/charts" component={Link}>
           <ListItemIcon>
             <BarChart />
           </ListItemIcon>

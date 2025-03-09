@@ -1,12 +1,12 @@
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { setSelectedStore } from "../redux/slices/chartSlice";
 import { Box, MenuItem, TextField, Typography } from "@mui/material";
-import { 
+import {
   AgCartesianChartOptions,
   AgBarSeriesOptions,
   AgLineSeriesOptions,
   AgCharts as AgChartsCore,
-  AgChartInstance
+  AgChartInstance,
 } from "ag-charts-community";
 import { useRef, useEffect } from "react";
 
@@ -55,7 +55,9 @@ const Chart = () => {
         fill: "#8884d8",
         tooltip: {
           renderer: ({ datum }: TooltipParams) =>
-            `Week: ${datum.Week} <br /> GM Dollars: $${datum.GM_Dollars.toFixed(2)}`,
+            `Week: ${datum.Week} <br /> GM Dollars: $${datum.GM_Dollars.toFixed(
+              2
+            )}`,
         },
       } as AgBarSeriesOptions,
       {
@@ -69,7 +71,9 @@ const Chart = () => {
         yAxisKeys: ["percentage"],
         tooltip: {
           renderer: ({ datum }: TooltipParams) =>
-            `Week: ${datum.Week} <br /> GM Percent: ${datum.GM_Percent.toFixed(2)}%`,
+            `Week: ${datum.Week} <br /> GM Percent: ${datum.GM_Percent.toFixed(
+              2
+            )}%`,
         },
       } as AgLineSeriesOptions,
     ],
@@ -115,7 +119,7 @@ const Chart = () => {
 
   useEffect(() => {
     let chartInstance: AgChartInstance | undefined;
-    
+
     if (chartRef.current) {
       chartInstance = AgChartsCore.create({
         ...chartOptions,
@@ -168,7 +172,16 @@ const Chart = () => {
           </TextField>
         </Box>
       </Box>
-      <div ref={chartRef} style={{ flex: 1, width: "100%", height: "500px" }} />
+      {chart?.selectedStore ? (
+        <div
+          ref={chartRef}
+          style={{ flex: 1, width: "100%", height: "500px" }}
+        />
+      ) : (
+        <div style={{ flex: 1, width: "100%", height: "500px" }}>
+          Please select a store
+        </div>
+      )}
     </Box>
   );
 };
