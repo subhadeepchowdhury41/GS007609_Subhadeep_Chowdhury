@@ -9,12 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import { AgGridReact } from "ag-grid-react";
-import { deleteSKU, importSKUs, SKU } from "../redux/slices/skuSlice";
+import { deleteSKU, SKU } from "../redux/slices/skuSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { useState } from "react";
 import SkuForm from "../components/forms/SkuForm";
-import * as XLSX from "xlsx";
-import UploadButton from "../components/ui/FileUpload";
 
 const SKUsPage = () => {
   const dispatch = useAppDispatch();
@@ -22,11 +20,6 @@ const SKUsPage = () => {
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [chosenSKUId, setChosenSKUId] = useState<string | undefined>();
-  const handleFileUpload = (workbook: XLSX.WorkBook) => {
-    const skus = XLSX.utils.sheet_to_json(workbook.Sheets["SKUs"]);
-    if (!skus.length) return;
-    dispatch(importSKUs(skus as SKU[]));
-  };
   const showDialog = (id?: string) => {
     setChosenSKUId(id);
     setOpen(true);
@@ -62,7 +55,6 @@ const SKUsPage = () => {
           SKUs
         </Typography>
         <Box sx={{ display: "flex", gap: 1 }}>
-          <UploadButton onFileUpload={handleFileUpload} label="Import" />
           <Button
             variant="outlined"
             color="primary"
@@ -76,26 +68,32 @@ const SKUsPage = () => {
       <Box className="ag-theme-material" sx={{ width: "100%", flex: 1 }}>
         <AgGridReact<SKU>
           columnDefs={[
+            {
+              headerName: "Actions",
+              minWidth: 120,
+              cellRenderer: (params: { data: SKU }) => (
+                <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                  <IconButton
+                    size="medium"
+                    onClick={() => showDialog(params.data.ID)}
+                  >
+                    <Edit color="primary" fontSize="small" />
+                  </IconButton>
+                  <IconButton
+                    size="medium"
+                    onClick={() => showDeleteDialog(params.data.ID)}
+                  >
+                    <Delete color="error" fontSize="small" />
+                  </IconButton>
+                </Box>
+              ),
+            },
             { headerName: "ID", field: "ID" },
             { headerName: "Label", field: "Label" },
             { headerName: "Department", field: "Department" },
             { headerName: "Class", field: "Class" },
             { headerName: "Price", field: "Price", type: "numberColumn" },
             { headerName: "Cost", field: "Cost", type: "numberColumn" },
-            {
-              headerName: "Actions",
-              minWidth: 240,
-              cellRenderer: (params: { data: SKU }) => (
-                <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-                  <IconButton onClick={() => showDialog(params.data.ID)}>
-                    <Edit fontSize="small" />
-                  </IconButton>
-                  <IconButton onClick={() => showDeleteDialog(params.data.ID)}>
-                    <Delete fontSize="small" />
-                  </IconButton>
-                </Box>
-              ),
-            },
           ]}
           rowData={skus}
           rowDragManaged

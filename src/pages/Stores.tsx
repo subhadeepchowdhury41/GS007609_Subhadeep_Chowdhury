@@ -12,10 +12,8 @@ import { Add, Delete, Edit } from "@mui/icons-material";
 import { useAppSelector } from "../../src/redux/store";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { deleteStore, importStores, Store } from "../redux/slices/storeSlice";
+import { deleteStore, Store } from "../redux/slices/storeSlice";
 import StoreForm from "../components/forms/StoreForm";
-import * as XLSX from "xlsx";
-import UploadButton from "../components/ui/FileUpload";
 
 const StoresPage = () => {
   const dispatch = useDispatch();
@@ -23,11 +21,6 @@ const StoresPage = () => {
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [chosenStoreId, setChosenStoreId] = useState<string | undefined>();
-  const handleFileUpload = (workbook: XLSX.WorkBook) => {
-    const stores = XLSX.utils.sheet_to_json(workbook.Sheets["Stores"]);
-    if (!stores.length) return;
-    dispatch(importStores(stores as Store[]));
-  };
   const showDialog = (id?: string) => {
     setChosenStoreId(id);
     setOpen(true);
@@ -63,7 +56,6 @@ const StoresPage = () => {
           Stores
         </Typography>
         <Box sx={{ display: "flex", gap: 1 }}>
-          <UploadButton onFileUpload={handleFileUpload} label="Import" />
           <Button
             variant="outlined"
             color="primary"
@@ -77,7 +69,7 @@ const StoresPage = () => {
       <Box className="ag-theme-material" sx={{ width: "100%", flex: 1 }}>
         <AgGridReact
           columnDefs={[
-            { headerName: "ID", field: "ID" },
+            { headerName: "ID", field: "ID", rowDrag: true },
             { headerName: "Label", field: "Label" },
             { headerName: "City", field: "City" },
             { headerName: "State", field: "State" },
@@ -97,6 +89,13 @@ const StoresPage = () => {
             },
           ]}
           rowData={stores}
+          defaultColDef={{
+            resizable: true,
+            sortable: true,
+            filter: true,
+          }}
+          rowDragManaged={true}
+          animateRows={true}
         />
       </Box>
       <Dialog open={open} onClose={handleClose} fullWidth>

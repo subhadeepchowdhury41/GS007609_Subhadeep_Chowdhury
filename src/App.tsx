@@ -14,16 +14,19 @@ import "./App.css";
 import Dashboard from "./components/layouts/Dashboard";
 import Charts from "./pages/Charts";
 import Planning from "./pages/Plannning";
-import { ClientSideRowModelModule, ModuleRegistry } from "ag-grid-community";
+import {
+  ClientSideRowModelModule,
+  ModuleRegistry,
+  RowDragModule,
+} from "ag-grid-community";
 import { Login } from "./pages/Login";
 import { useAuth } from "./hooks/useAuth";
 
-ModuleRegistry.registerModules([ClientSideRowModelModule]);
+ModuleRegistry.registerModules([ClientSideRowModelModule, RowDragModule]);
 
 function App() {
   const auth = useAuth();
   const isAuthenticated = !!auth?.user;
-  console.log(isAuthenticated);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
